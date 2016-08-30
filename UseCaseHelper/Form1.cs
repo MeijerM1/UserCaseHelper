@@ -22,6 +22,10 @@ namespace UseCaseHelper
             InitializeComponent();
         }
 
+        //
+        // Function that creates an actor and adds it to the list of actors.
+        // Will invalidate the draw panel to make sure it shows up.
+        //
         private void createActor(Point mousePosition)
         {
             string name = Microsoft.VisualBasic.Interaction.InputBox("Give the actors name:", "Actor naming", "example");
@@ -29,6 +33,10 @@ namespace UseCaseHelper
             panel1.Invalidate();
         }
 
+        //
+        // Function that creates a new use case class based on the information entered on the second form
+        // Adds said use case to the list of use cases and invalidates the panel to draw
+        //
         public void createUseCase(Point mousePosition)
         {
             if (fp.ShowDialog() == DialogResult.OK)
@@ -46,6 +54,11 @@ namespace UseCaseHelper
             panel1.Invalidate();
         }
 
+        //
+        // Function that draws red outlining around the selected item
+        // Outlining will disappear when the panel is invalidated
+        // Is called from the isHit function
+        //
         private void drawSelection(Rectangle rect)
         {
             panel1.Refresh();
@@ -54,6 +67,10 @@ namespace UseCaseHelper
             g.DrawRectangle(redPen, rect);
         }
 
+        //
+        // Called when a use case is selected
+        // Sets all the forms textboxes to represent the select use case and opens the form
+        //
         private void getUseCaseInformation(UserCase u)
         {
             fp.UseCaseName = u.Name;
@@ -66,6 +83,11 @@ namespace UseCaseHelper
             fp.ShowDialog();
         }
 
+        // 
+        // Called when the mouse is clicked on the panel
+        // Goed through all the actors and use cases to see if they intersect with the mouse position
+        // When it does it will call the drawOutline function
+        //
         private void checkHit(Point mousePosition)
         {
             foreach(Actor a in actors)
@@ -106,6 +128,9 @@ namespace UseCaseHelper
             panel1.Invalidate();
         }
 
+        // 
+        // All permanent drawing happens here
+        //
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             Image imag = Image.FromFile(@"C:\Users\max1_\Source\Repos\UserCaseHelper\UseCaseHelper\obj\actor.png");
@@ -183,6 +208,10 @@ namespace UseCaseHelper
             }
         }
 
+        //
+        // Clear tboth the actor and use cases lists
+        // Invalidates the panel
+        //
         private void btClear_Click(object sender, EventArgs e)
         {
             actors.Clear();
