@@ -15,6 +15,7 @@ namespace UseCaseHelper
         List<Actor> actors = new List<Actor>();
         List<UserCase> useCases = new List<UserCase>();
         formProperties fp = new formProperties();
+        bool remove = false;
 
         public Form1()
         {
@@ -42,7 +43,66 @@ namespace UseCaseHelper
 
                     useCases.Add(new UserCase(mousePosition, name, summary, actor, assumption, description, exception, result));
             }
+            panel1.Invalidate();
+        }
 
+        private void drawSelection(Rectangle rect)
+        {
+            panel1.Refresh();
+            Graphics g = panel1.CreateGraphics();
+            Pen redPen = new Pen(Color.Red, 1);
+            g.DrawRectangle(redPen, rect);
+        }
+
+        private void getUseCaseInformation(UserCase u)
+        {
+            fp.UseCaseName = u.Name;
+            fp.Summary = u.Summary;
+            fp.Actor = u.Actors;
+            fp.Assumption = u.Assumption;
+            fp.Description = u.Description;
+            fp.Exception = u.Exception;
+            fp.Result = u.Result;
+            fp.ShowDialog();
+        }
+
+        private void checkHit(Point mousePosition)
+        {
+            foreach(Actor a in actors)
+            {
+                if (a.isHit(mousePosition))
+                {
+                    if (remove == false)
+                    {
+                        drawSelection(a.Rect);
+                        return;
+                    }
+                    else
+                    {
+                        actors.Remove(a);
+                        panel1.Invalidate();
+                        return;
+                    }
+                }            
+            }
+            foreach(UserCase u in useCases)
+            {
+                if(u.isHit(mousePosition))
+                {
+                    if(remove == false)
+                    {
+                        drawSelection(u.Rect);
+                        getUseCaseInformation(u);
+                        return;
+                    }
+                    else
+                    {
+                        useCases.Remove(u);
+                        panel1.Invalidate();
+                        return;
+                    }
+                }
+            }
             panel1.Invalidate();
         }
 
@@ -57,49 +117,76 @@ namespace UseCaseHelper
             
             foreach (Actor a in actors)
             {
-                e.Graphics.DrawImage(imag, (a.Position.X - (imag.Width/2)), (a.Position.Y - (imag.Height / 2)));
-                e.Graphics.DrawString(a.Name, font, sbr,(a.Position.X - (imag.Width / 2 + 10))  ,(a.Position.Y + imag.Height / 2));
+                SizeF stringSize = new SizeF();
+                stringSize = e.Graphics.MeasureString(a.Name, font);
+
+                Rectangle rect = new Rectangle();
+                rect.Width = imag.Width;
+                rect.Height = imag.Height;
+                rect.X = (a.Position.X - (imag.Width / 2));
+                rect.Y = (a.Position.Y - (imag.Height / 2));
+
+                a.setBoundries(rect);
+
+                e.Graphics.DrawImage(imag, rect);
+                e.Graphics.DrawString(a.Name, font, sbr,(a.Position.X - stringSize.Width/2) ,(a.Position.Y + imag.Height / 2));
             }
             foreach(UserCase u in useCases)
             {
                 SizeF stringSize = new SizeF();
                 stringSize = e.Graphics.MeasureString(u.Name, font);
-                e.Graphics.DrawString(u.Name, font, sbr, Convert.ToInt32(u.Position.X - stringSize.Width/2 + stringSize.Width * 0.1),Convert.ToInt32( u.Position.Y - stringSize.Height/2 - stringSize.Height * 0.005));
+                e.Graphics.DrawString(u.Name, font, sbr, Convert.ToInt32(u.Position.X - stringSize.Width/2 + stringSize.Width * 0.1),Convert.ToInt32( u.Position.Y - stringSize.Height/2 + stringSize.Height * 0.3));
 
-                Rectangle rt = new Rectangle();
-                rt.X = u.Position.X - Convert.ToInt32(stringSize.Width / 2);
-                rt.Y = u.Position.Y - Convert.ToInt32 (stringSize.Height / 2);
+                Rectangle rect = new Rectangle();
+                rect.X = u.Position.X - Convert.ToInt32(stringSize.Width / 2);
+                rect.Y = u.Position.Y - Convert.ToInt32 (stringSize.Height / 2);
 
-                rt.Width = Convert.ToInt32(stringSize.Width + Convert.ToInt32(stringSize.Width * 0.1));
-                rt.Height = Convert.ToInt32(stringSize.Height + Convert.ToInt32(stringSize.Height * 0.3));
+                rect.Width = Convert.ToInt32(stringSize.Width + Convert.ToInt32(stringSize.Width * 0.1));
+                rect.Height = Convert.ToInt32(stringSize.Height + Convert.ToInt32(stringSize.Height * 0.6));
 
+                u.setBoundries(rect);
 
-                e.Graphics.DrawEllipse(blackPen, rt);
+                e.Graphics.DrawEllipse(blackPen, rect);
             }
         }
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             Point mousePosition = new Point(e.X, e.Y);
-            if (rbActor.Checked)
+            if (rbCreate.Checked)
             {
-                createActor(mousePosition);
+                remove = false;
+                if (rbActor.Checked)
+                {
+                    createActor(mousePosition);
+                }
+                else if (rbUseCase.Checked)
+                {
+                    createUseCase(mousePosition);
+                }
+                else if (rbLine.Checked)
+                {
+                    //Placeholder
+                }
+                else
+                    return;
             }
-            else if (rbUseCase.Checked)
+            else if(rbSelect.Checked)
             {
-                createUseCase(mousePosition);
+                checkHit(mousePosition);
+                remove = false;
             }
-            else if (rbLine.Checked)
+            else if(rbRemove.Checked)
             {
-                //Placeholder
+                checkHit(mousePosition);
+                remove = true;
             }
-            else
-                return;
         }
 
         private void btClear_Click(object sender, EventArgs e)
         {
             actors.Clear();
+            useCases.Clear();
             panel1.Invalidate();
         }
     }

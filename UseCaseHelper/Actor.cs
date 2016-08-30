@@ -13,6 +13,7 @@ namespace UseCaseHelper
         // Fields
         string name;
         Point position;
+        Rectangle rect;
 
         // Properties
         public string Name
@@ -25,6 +26,11 @@ namespace UseCaseHelper
             get { return position; }
         }
 
+        public Rectangle Rect
+        {
+            get { return rect;}
+        }
+
         // Constructors
         public Actor(Point position, string name)
         {
@@ -33,5 +39,17 @@ namespace UseCaseHelper
         }
 
         // Methods
+        public void setBoundries(Rectangle rect)
+        {
+            this.rect = rect;
+        }
+
+        public bool isHit(Point mousePosition)
+        {
+            if (rect.Contains(mousePosition))
+                return true;
+            else
+                return false;
+        }
     }
 }

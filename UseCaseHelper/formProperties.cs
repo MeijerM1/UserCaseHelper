@@ -16,40 +16,47 @@ namespace UseCaseHelper
         {
             InitializeComponent();
         }
-        string name;
-        string summary;
-        string actor;
-        string assumption;
-        string description;
-        string exception;
-        string result;
+        string name = "";
+        string summary = "";
+        string actor = "";
+        string assumption = "";
+        string description = "";
+        string exception = "";
+        string result = "";
         public string UseCaseName
         {
             get { return name; }
+            set { this.name = value; }
         }
         public string Summary
         {
             get { return summary; }
+            set { this.summary = value; }
         }
         public string Actor
         {
             get { return actor; }
+            set { this.actor = value; }
         }
         public string Assumption
         {
             get { return assumption; }
+            set { this.assumption = value; }
         }
         public string Description
         {
             get { return description; }
+            set { this.description = value; }
         }
         public string Exception
         {
             get { return exception; }
+            set { this.exception = value; }
         }
         public string Result
         {
             get { return result; }
+            set { this.result = value; }
         }
 
         private void tbName_TextChanged(object sender, EventArgs e)
@@ -87,9 +94,31 @@ namespace UseCaseHelper
             result = tbResult.Text;
         }
 
+        private void updateTextbox()
+        {
+            tbName.Text = name;
+            tbSummary.Text = summary;
+            tbActors.Text = actor;
+            tbDescription.Text = description;
+            tbExecptions.Text = exception;
+            tbResult.Text = result;
+            tbAssumptions.Text = assumption;
+
+        }
+
         private void btSave_Click(object sender, EventArgs e)
         {
+            if (name == null || summary == null || actor == null || assumption == null || description == null || exception == null || result == null)
+            {
+                MessageBox.Show("Some field are blank!");
+                return; 
+            }
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void formProperties_Load(object sender, EventArgs e)
+        {
+            updateTextbox();
         }
     }
 }

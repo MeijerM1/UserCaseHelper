@@ -36,8 +36,8 @@
             this.rbSelect = new System.Windows.Forms.RadioButton();
             this.rbCreate = new System.Windows.Forms.RadioButton();
             this.btClear = new System.Windows.Forms.Button();
-            this.btRemove = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.rbRemove = new System.Windows.Forms.RadioButton();
             this.gmElements.SuspendLayout();
             this.gbModus.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +61,6 @@
             this.rbLine.Name = "rbLine";
             this.rbLine.Size = new System.Drawing.Size(56, 21);
             this.rbLine.TabIndex = 2;
-            this.rbLine.TabStop = true;
             this.rbLine.Text = "Line";
             this.rbLine.UseVisualStyleBackColor = true;
             // 
@@ -72,13 +71,13 @@
             this.rbUseCase.Name = "rbUseCase";
             this.rbUseCase.Size = new System.Drawing.Size(88, 21);
             this.rbUseCase.TabIndex = 1;
-            this.rbUseCase.TabStop = true;
             this.rbUseCase.Text = "Use case";
             this.rbUseCase.UseVisualStyleBackColor = true;
             // 
             // rbActor
             // 
             this.rbActor.AutoSize = true;
+            this.rbActor.Checked = true;
             this.rbActor.Location = new System.Drawing.Point(6, 32);
             this.rbActor.Name = "rbActor";
             this.rbActor.Size = new System.Drawing.Size(62, 21);
@@ -89,6 +88,7 @@
             // 
             // gbModus
             // 
+            this.gbModus.Controls.Add(this.rbRemove);
             this.gbModus.Controls.Add(this.rbSelect);
             this.gbModus.Controls.Add(this.rbCreate);
             this.gbModus.Location = new System.Drawing.Point(191, 12);
@@ -105,13 +105,13 @@
             this.rbSelect.Name = "rbSelect";
             this.rbSelect.Size = new System.Drawing.Size(68, 21);
             this.rbSelect.TabIndex = 1;
-            this.rbSelect.TabStop = true;
             this.rbSelect.Text = "Select";
             this.rbSelect.UseVisualStyleBackColor = true;
             // 
             // rbCreate
             // 
             this.rbCreate.AutoSize = true;
+            this.rbCreate.Checked = true;
             this.rbCreate.Location = new System.Drawing.Point(6, 32);
             this.rbCreate.Name = "rbCreate";
             this.rbCreate.Size = new System.Drawing.Size(71, 21);
@@ -130,15 +130,6 @@
             this.btClear.UseVisualStyleBackColor = true;
             this.btClear.Click += new System.EventHandler(this.btClear_Click);
             // 
-            // btRemove
-            // 
-            this.btRemove.Location = new System.Drawing.Point(985, 75);
-            this.btRemove.Name = "btRemove";
-            this.btRemove.Size = new System.Drawing.Size(125, 35);
-            this.btRemove.TabIndex = 4;
-            this.btRemove.Text = "Remove";
-            this.btRemove.UseVisualStyleBackColor = true;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
@@ -149,13 +140,22 @@
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             // 
+            // rbRemove
+            // 
+            this.rbRemove.AutoSize = true;
+            this.rbRemove.Location = new System.Drawing.Point(6, 106);
+            this.rbRemove.Name = "rbRemove";
+            this.rbRemove.Size = new System.Drawing.Size(81, 21);
+            this.rbRemove.TabIndex = 2;
+            this.rbRemove.Text = "Remove";
+            this.rbRemove.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1122, 805);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btRemove);
             this.Controls.Add(this.btClear);
             this.Controls.Add(this.gbModus);
             this.Controls.Add(this.gmElements);
@@ -178,8 +178,8 @@
         private System.Windows.Forms.RadioButton rbSelect;
         private System.Windows.Forms.RadioButton rbCreate;
         private System.Windows.Forms.Button btClear;
-        private System.Windows.Forms.Button btRemove;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton rbRemove;
     }
 }
 
