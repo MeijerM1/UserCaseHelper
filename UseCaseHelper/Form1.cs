@@ -13,8 +13,9 @@ namespace UseCaseHelper
     public partial class Form1 : Form
     {
         List<Actor> actors = new List<Actor>();
-        List<UserCase> useCases = new List<UserCase>();
+        List<UserCase> useCases = new List<UserCase>();        
         formProperties fp = new formProperties();
+        List<Point> connectionPoints = new List<Point>();
         bool remove = false;
 
         public Form1()
@@ -65,6 +66,35 @@ namespace UseCaseHelper
             Graphics g = panel1.CreateGraphics();
             Pen redPen = new Pen(Color.Red, 1);
             g.DrawRectangle(redPen, rect);
+        }
+
+        private void checkConnectionHit(Point mousePosition)
+        {
+
+            foreach(var a in actors)
+            {
+                if (a.isHit(mousePosition))
+                    connectionPoints.Add(a.Position);
+            }
+            foreach(var u in useCases)
+            {
+                if (u.isHit(mousePosition))
+                    connectionPoints.Add(u.Position);
+            }
+
+            if (connectionPoints.Count >= 2)
+            {
+                panel1.Invalidate();
+            }
+        }
+
+        private void drawConectionLine(List<Point> points)
+        {
+            Graphics g = panel1.CreateGraphics();
+            Pen blackPen = new Pen(Color.Black, 2);           
+            g.DrawLine(blackPen, points[0], points[1]);
+
+
         }
 
         //
@@ -173,6 +203,14 @@ namespace UseCaseHelper
 
                 e.Graphics.DrawEllipse(blackPen, rect);
             }
+            if(connectionPoints.Count % 2 == 0)
+            {
+                for (int i = 0; i < connectionPoints.Count; i++)
+                {
+                    e.Graphics.DrawLine(blackPen, connectionPoints[i], connectionPoints[i + 1]);
+                    i++;
+                }
+            }
         }
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
@@ -191,7 +229,7 @@ namespace UseCaseHelper
                 }
                 else if (rbLine.Checked)
                 {
-                    //Placeholder
+                    checkConnectionHit(mousePosition);
                 }
                 else
                     return;
@@ -216,6 +254,7 @@ namespace UseCaseHelper
         {
             actors.Clear();
             useCases.Clear();
+            connectionPoints.Clear();
             panel1.Invalidate();
         }
     }
