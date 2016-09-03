@@ -33,11 +33,13 @@
             this.rbUseCase = new System.Windows.Forms.RadioButton();
             this.rbActor = new System.Windows.Forms.RadioButton();
             this.gbModus = new System.Windows.Forms.GroupBox();
+            this.rbRemove = new System.Windows.Forms.RadioButton();
             this.rbSelect = new System.Windows.Forms.RadioButton();
             this.rbCreate = new System.Windows.Forms.RadioButton();
             this.btClear = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.rbRemove = new System.Windows.Forms.RadioButton();
+            this.btExport = new System.Windows.Forms.Button();
+            this.rbMove = new System.Windows.Forms.RadioButton();
             this.gmElements.SuspendLayout();
             this.gbModus.SuspendLayout();
             this.SuspendLayout();
@@ -88,15 +90,26 @@
             // 
             // gbModus
             // 
+            this.gbModus.Controls.Add(this.rbMove);
             this.gbModus.Controls.Add(this.rbRemove);
             this.gbModus.Controls.Add(this.rbSelect);
             this.gbModus.Controls.Add(this.rbCreate);
             this.gbModus.Location = new System.Drawing.Point(191, 12);
             this.gbModus.Name = "gbModus";
-            this.gbModus.Size = new System.Drawing.Size(153, 142);
+            this.gbModus.Size = new System.Drawing.Size(237, 142);
             this.gbModus.TabIndex = 2;
             this.gbModus.TabStop = false;
             this.gbModus.Text = "Modus";
+            // 
+            // rbRemove
+            // 
+            this.rbRemove.AutoSize = true;
+            this.rbRemove.Location = new System.Drawing.Point(6, 106);
+            this.rbRemove.Name = "rbRemove";
+            this.rbRemove.Size = new System.Drawing.Size(81, 21);
+            this.rbRemove.TabIndex = 2;
+            this.rbRemove.Text = "Remove";
+            this.rbRemove.UseVisualStyleBackColor = true;
             // 
             // rbSelect
             // 
@@ -116,7 +129,6 @@
             this.rbCreate.Name = "rbCreate";
             this.rbCreate.Size = new System.Drawing.Size(71, 21);
             this.rbCreate.TabIndex = 0;
-            this.rbCreate.TabStop = true;
             this.rbCreate.Text = "Create";
             this.rbCreate.UseVisualStyleBackColor = true;
             // 
@@ -139,22 +151,36 @@
             this.panel1.TabIndex = 5;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
-            // rbRemove
+            // btExport
             // 
-            this.rbRemove.AutoSize = true;
-            this.rbRemove.Location = new System.Drawing.Point(6, 106);
-            this.rbRemove.Name = "rbRemove";
-            this.rbRemove.Size = new System.Drawing.Size(81, 21);
-            this.rbRemove.TabIndex = 2;
-            this.rbRemove.Text = "Remove";
-            this.rbRemove.UseVisualStyleBackColor = true;
+            this.btExport.Location = new System.Drawing.Point(985, 82);
+            this.btExport.Name = "btExport";
+            this.btExport.Size = new System.Drawing.Size(125, 35);
+            this.btExport.TabIndex = 6;
+            this.btExport.Text = "Export";
+            this.btExport.UseVisualStyleBackColor = true;
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
+            // 
+            // rbMove
+            // 
+            this.rbMove.AutoSize = true;
+            this.rbMove.Location = new System.Drawing.Point(118, 32);
+            this.rbMove.Name = "rbMove";
+            this.rbMove.Size = new System.Drawing.Size(63, 21);
+            this.rbMove.TabIndex = 3;
+            this.rbMove.Text = "Move";
+            this.rbMove.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1122, 805);
+            this.Controls.Add(this.btExport);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btClear);
             this.Controls.Add(this.gbModus);
@@ -180,6 +206,8 @@
         private System.Windows.Forms.Button btClear;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton rbRemove;
+        private System.Windows.Forms.Button btExport;
+        private System.Windows.Forms.RadioButton rbMove;
     }
 }
 
