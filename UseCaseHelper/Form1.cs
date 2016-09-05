@@ -103,6 +103,8 @@ namespace UseCaseHelper
             g.DrawRectangle(redPen, rect);
         }
 
+        //
+        // Function that will check 
         private void checkConnectionHit(Point mousePosition)
         {
             foreach (KeyValuePair<int, Actor> a in actors)
@@ -126,13 +128,6 @@ namespace UseCaseHelper
                 selectedUseCase = 0;
                 panel1.Invalidate();
             }
-        }
-
-        private void drawConectionLine(List<Point> points)
-        {
-            Graphics g = panel1.CreateGraphics();
-            Pen blackPen = new Pen(Color.Black, 2);
-            g.DrawLine(blackPen, points[0], points[1]);
         }
 
         //
@@ -259,6 +254,7 @@ namespace UseCaseHelper
 
             panel1.Invalidate();
         }
+
         // 
         // All permanent drawing happens here
         //
