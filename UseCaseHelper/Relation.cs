@@ -21,12 +21,12 @@ namespace UseCaseHelper
             get;
             set;
         }
-        public UserCase useCase1
+        public UseCase useCase1
         {
             get;
             set;
         }
-        public UserCase useCase2
+        public UseCase useCase2
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace UseCaseHelper
         {
             actor1 = a;
         }
-        public Relation (UserCase u)
+        public Relation (UseCase u)
         {
             useCase1 = u;
         }
@@ -57,7 +57,7 @@ namespace UseCaseHelper
                 return;
         }
 
-        public void setUseCase(UserCase u)
+        public void setUseCase(UseCase u)
         {
             if (useCase1 == null)
                 useCase1 = u;

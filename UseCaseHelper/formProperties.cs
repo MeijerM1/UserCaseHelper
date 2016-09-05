@@ -103,7 +103,6 @@ namespace UseCaseHelper
             tbExecptions.Text = exception;
             tbResult.Text = result;
             tbAssumptions.Text = assumption;
-
         }
 
         private void btSave_Click(object sender, EventArgs e)

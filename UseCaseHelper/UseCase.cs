@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace UseCaseHelper
 {
-    class UserCase
+    class UseCase
     {
         // Fields 
         string name;
@@ -27,6 +27,7 @@ namespace UseCaseHelper
         public string Name
         {
             get { return name; }
+            set { this.name = value; }
 
         }
         public string Summary
@@ -82,7 +83,7 @@ namespace UseCaseHelper
         }
 
         // Constructors
-        public UserCase(Point position, string name, string summary, string actors, string assumption, string description, string exception, string result)
+        public UseCase(Point position, string name, string summary, string actors, string assumption, string description, string exception, string result)
         {
             this.position = position;
             this.name = name;

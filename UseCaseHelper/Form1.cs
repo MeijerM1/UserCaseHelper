@@ -14,7 +14,7 @@ namespace UseCaseHelper
     public partial class Form1 : Form
     {
         Dictionary<int, Actor> actors = new Dictionary<int, Actor>();
-        Dictionary<int, UserCase> useCases = new Dictionary<int, UserCase>(); 
+        Dictionary<int, UseCase> useCases = new Dictionary<int, UseCase>();
         formProperties fp = new formProperties();
 
         int selectedActor;
@@ -35,9 +35,9 @@ namespace UseCaseHelper
         {
 
             string name = Microsoft.VisualBasic.Interaction.InputBox("Give the actors name:", "Actor naming", "example");
-            if(name == "")
+            if (name == "")
                 return;
-            actors.Add(actors.Count + 1,new Actor(mousePosition, name));
+            actors.Add(actors.Count + 1, new Actor(mousePosition, name));
 
             Image imag = Image.FromFile(@"C:\Users\max1_\Source\Repos\UserCaseHelper\UseCaseHelper\obj\actor.png");
 
@@ -59,15 +59,15 @@ namespace UseCaseHelper
         {
             if (fp.ShowDialog() == DialogResult.OK)
             {
-                    string name = fp.UseCaseName;
-                    string summary = fp.Summary;
-                    string actor = fp.Actor;
-                    string assumption = fp.Assumption;
-                    string description = fp.Description;
-                    string exception = fp.Exception;
-                    string result = fp.Result;
+                string name = fp.UseCaseName;
+                string summary = fp.Summary;
+                string actor = fp.Actor;
+                string assumption = fp.Assumption;
+                string description = fp.Description;
+                string exception = fp.Exception;
+                string result = fp.Result;
 
-                    useCases.Add(useCases.Count + 1,new UserCase(mousePosition, name, summary, actor, assumption, description, exception, result));
+                useCases.Add(useCases.Count + 1, new UseCase(mousePosition, name, summary, actor, assumption, description, exception, result));
             }
             FontFamily fam = new FontFamily("Arial");
             Font font = new System.Drawing.Font(fam, 10, FontStyle.Bold);
@@ -113,10 +113,10 @@ namespace UseCaseHelper
                     selectedActor = a.Key;
                 }
             }
-            foreach(KeyValuePair<int, UserCase> u in useCases)
+            foreach (KeyValuePair<int, UseCase> u in useCases)
             {
                 if (u.Value.isHit(mousePosition))
-                    selectedUseCase = u.Key;                   
+                    selectedUseCase = u.Key;
             }
 
             if (selectedActor > 0 && selectedUseCase > 0)
@@ -131,7 +131,7 @@ namespace UseCaseHelper
         private void drawConectionLine(List<Point> points)
         {
             Graphics g = panel1.CreateGraphics();
-            Pen blackPen = new Pen(Color.Black, 2);           
+            Pen blackPen = new Pen(Color.Black, 2);
             g.DrawLine(blackPen, points[0], points[1]);
         }
 
@@ -139,7 +139,7 @@ namespace UseCaseHelper
         // Called when a use case is selected
         // Sets all the forms textboxes to represent the selected use case and opens the form
         //
-        private void getUseCaseInformation(UserCase u)
+        private void getUseCaseInformation(UseCase u)
         {
             fp.UseCaseName = u.Name;
             fp.Summary = u.Summary;
@@ -148,7 +148,16 @@ namespace UseCaseHelper
             fp.Description = u.Description;
             fp.Exception = u.Exception;
             fp.Result = u.Result;
-            fp.ShowDialog();
+            if (fp.ShowDialog() == DialogResult.OK)
+            {
+                u.Name = fp.UseCaseName;
+                u.Summary = fp.Summary;
+                u.Actors = fp.Actor;
+                u.Assumption = fp.Assumption;
+                u.Description = fp.Description;
+                u.Exception = fp.Exception;
+                u.Result = fp.Result;
+            }
         }
 
         // 
@@ -158,7 +167,7 @@ namespace UseCaseHelper
         //
         private int checkActorHit(Point mousePosition)
         {
-            foreach(KeyValuePair<int, Actor> a in actors)
+            foreach (KeyValuePair<int, Actor> a in actors)
             {
                 if (a.Value.isHit(mousePosition))
                 {
@@ -170,7 +179,7 @@ namespace UseCaseHelper
 
         private int checkUseCaseHit(Point mousePosition)
         {
-            foreach (KeyValuePair<int, UserCase> u in useCases)
+            foreach (KeyValuePair<int, UseCase> u in useCases)
             {
                 if (u.Value.isHit(mousePosition))
                 {
@@ -207,7 +216,7 @@ namespace UseCaseHelper
         }
         private void drawUseCases(PaintEventArgs e, Font font, SolidBrush sbr, Pen blackPen)
         {
-            foreach (KeyValuePair<int, UserCase> u in useCases)
+            foreach (KeyValuePair<int, UseCase> u in useCases)
             {
                 SizeF stringSize = new SizeF();
                 stringSize = e.Graphics.MeasureString(u.Value.Name, font);
@@ -230,6 +239,8 @@ namespace UseCaseHelper
 
             g.DrawImage(imag, actors[activeActorIndex].Rect);
             g.DrawString(actors[activeActorIndex].Name, font, sbr, (actors[activeActorIndex].Position.X - stringSize.Width / 2), (actors[activeActorIndex].Position.Y + imag.Height / 2));
+
+            panel1.Invalidate();
         }
 
         private void drawActiveUseCase()
@@ -245,6 +256,8 @@ namespace UseCaseHelper
 
             g.DrawString(useCases[activeUseCaseIndex].Name, font, sbr, Convert.ToInt32(useCases[activeUseCaseIndex].Position.X - stringSize.Width / 2 + stringSize.Width * 0.1), Convert.ToInt32(useCases[activeUseCaseIndex].Position.Y - stringSize.Height / 2 + stringSize.Height * 0.3));
             g.DrawEllipse(blackPen, useCases[activeUseCaseIndex].Rect);
+
+            panel1.Invalidate();
         }
         // 
         // All permanent drawing happens here
@@ -282,7 +295,7 @@ namespace UseCaseHelper
                 else
                     return;
             }
-            else if(rbSelect.Checked)
+            else if (rbSelect.Checked)
             {
                 int index = checkActorHit(mousePosition);
                 if (index != -1)
@@ -297,9 +310,10 @@ namespace UseCaseHelper
                     return;
                 }
                 else
-                    return;
+                    panel1.Invalidate();
+                return;
             }
-            else if(rbRemove.Checked)
+            else if (rbRemove.Checked)
             {
                 int index = checkActorHit(mousePosition);
                 if (index != -1)
@@ -334,11 +348,8 @@ namespace UseCaseHelper
 
         private void btExport_Click(object sender, EventArgs e)
         {
-            int width = panel1.Size.Width;
-            int height = panel1.Size.Height;
-
-            Bitmap bm = new Bitmap(width, height);
-            panel1.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
+            Bitmap bm = new Bitmap(panel1.Size.Width, panel1.Size.Height);
+            panel1.DrawToBitmap(bm, new Rectangle(0, 0, panel1.Size.Width, panel1.Size.Height));
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "Images|*.png;*.bmp;*.jpg";
@@ -362,20 +373,25 @@ namespace UseCaseHelper
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             Point mousePosition = new Point(e.X, e.Y);
-            activeActorIndex = checkActorHit(mousePosition);
-            activeUseCaseIndex = checkUseCaseHit(mousePosition);
+            if (rbMove.Checked)
+            {
+                activeActorIndex = checkActorHit(mousePosition);
+                activeUseCaseIndex = checkUseCaseHit(mousePosition);
+            }
         }
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
+            if (activeActorIndex != -1 || activeUseCaseIndex != -1)
+                panel1.Invalidate();
+
             activeUseCaseIndex = -1;
             activeActorIndex = -1;
-            panel1.Invalidate();
         }
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            if(rbMove.Checked)
+            if (rbMove.Checked)
             {
                 Point mousePosition = new Point(e.X, e.Y);
                 if (activeActorIndex != -1)
@@ -383,7 +399,7 @@ namespace UseCaseHelper
                     actors[activeActorIndex].movePosition(mousePosition);
                     drawActiveActor();
                 }
-                else if(activeUseCaseIndex != -1)
+                else if (activeUseCaseIndex != -1)
                 {
                     useCases[activeUseCaseIndex].movePosition(mousePosition);
                     drawActiveUseCase();
