@@ -104,7 +104,8 @@ namespace UseCaseHelper
         }
 
         //
-        // Function that will check 
+        // Function that will check if it's time to draw connection lines
+        //
         private void checkConnectionHit(Point mousePosition)
         {
             foreach (KeyValuePair<int, Actor> a in actors)
@@ -128,7 +129,7 @@ namespace UseCaseHelper
                 selectedUseCase = 0;
                 panel1.Invalidate();
             }
-        }
+        }               
 
         //
         // Called when a use case is selected
